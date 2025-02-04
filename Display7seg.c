@@ -1,13 +1,22 @@
-//Librería de display de 7 segmentos (llamar a las funciones e incluir la librería)
-#ifndef Display7seg_h_
-#define Display7seg_h_
-#include <stdint.h>
-#include <avr/io.h>
+//Librería de display de 7 segmentos
+#include "Display7seg.h"
 
-// Inicializar el display
-void display_init();
+// Mapeo de números al display de 7 segmentos (ánodo común)
+const uint8_t SEGMENT_MAP[] = {
+	0b01000000, // 0
+	0b11111001, // 1
+	0b10100100, // 2
+	0b00110000, // 3
+	0b10011001, // 4
+	0b10010010, // 5
+};
 
-// Mostrar un número en el display
-void display_number(uint8_t num);
+// Configurar el puerto D como salida para el display
+void display_init() {
+	DDRD = 0xFF; // Puerto D como salida
+}
 
-#endif
+// Mostrar número en el display
+void display_number(uint8_t num) {
+	PORTD = SEGMENT_MAP[num];
+}
